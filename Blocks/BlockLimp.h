@@ -10,14 +10,11 @@
 class BlockLimp : public AbstractBlockState
 {
 	private:
-		static const NxReal forceStrength;
 
 	public:
 		BlockLimp(AbstractBlock& block) : AbstractBlockState(block)
 		{
 		}
 };
-
-const NxReal BlockLimp::forceStrength = 20.0;
 
 #endif /*BLOCKKINEMATIC_H_*/

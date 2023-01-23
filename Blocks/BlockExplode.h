@@ -11,14 +11,11 @@
 class BlockExplode : public AbstractBlockState
 {
 	private:
-		static const NxReal forceStrength;
 
 	public:
 		BlockExplode(AbstractBlock& block) : AbstractBlockState(block)
 		{
 		}
 };
-
-const NxReal BlockExplode::forceStrength = 400.0;
 
 #endif /*BLOCKEXPLODE_H_*/

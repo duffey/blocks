@@ -44,15 +44,15 @@
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\boost\boost_1_81_0;C:\Users\user\code\Blocks\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\user\code\Blocks\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\glfw-3.3.8.bin.WIN32\include;C:\Program Files %28x86%29\boost\boost_1_81_0;C:\Users\user\code\blocks\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\glfw-3.3.8.bin.WIN32\lib-vc2019;C:\Users\user\code\Blocks\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)$(Configuration)\</OutDir>
     <IntDir>$(Configuration)\</IntDir>
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\Program Files %28x86%29\boost\boost_1_81_0;C:\Users\user\code\Blocks\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\user\code\Blocks\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\glfw-3.3.8.bin.WIN32\include;C:\Program Files %28x86%29\boost\boost_1_81_0;C:\Users\user\code\blocks\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\glfw-3.3.8.bin.WIN32\lib-vc2019;C:\Users\user\code\Blocks\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -67,7 +67,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3_mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\user\code\Blocks\lib;C:\Program Files\AGEIA Technologies\SDK\v2.7.3\SDKs\lib;C:\Program Files\AGEIA Technologies\SDK\v2.7.3\Graphics\lib;C:\Program Files %28x86%29\boost\boost_1_81_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -88,7 +88,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glfw3_mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\user\code\Blocks\lib;C:\Program Files\AGEIA Technologies\SDK\v2.7.3\SDKs\lib;C:\Program Files\AGEIA Technologies\SDK\v2.7.3\Graphics\lib;C:\Program Files %28x86%29\boost\boost_1_81_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>LIBC.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -99,6 +99,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gl.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScrollingButtonMenu.cpp" />
   </ItemGroup>

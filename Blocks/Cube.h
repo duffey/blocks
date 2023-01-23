@@ -7,7 +7,6 @@
 #include "SimulatedModel.h"
 #include "Vector4.h"
 #include "Matrix44.h"
-#include "NxPhysics.h"
 
 using namespace std;
 

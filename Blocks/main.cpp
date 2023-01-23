@@ -4,20 +4,12 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <Windows.h>
 
-#define NOMINMAX
-#include  <GLee/GLee.h>
-
-
-
-#if __APPLE__
-#include <GLUT/glut.h>
-#else 
-#include <GL/glut.h>
-#endif
+#include <glad/gl.h>
+#include <GLFW/glfw3.h>
 
 
-#include "NxPhysics.h"
 #include "BlockDriver.h"
 #include "BlockStructure.h"
 #include "Matrix44.h"
@@ -48,7 +40,6 @@ static GLfloat windowWidth = originalWindowWidth, windowHeight = originalWindowH
 
 static GLfloat eye[3] = {(cameraRadius*(cos(yRotation)))*cos(xzRotation), cameraRadius*sin(yRotation), (cameraRadius*(cos(yRotation)))*sin(xzRotation)};
 static GLint mouse[2] = {0, 0};
-static GLint buttons[5] = {GLUT_UP, GLUT_UP, GLUT_UP, GLUT_UP, GLUT_UP};
 
 Controller* controller;
 
@@ -111,117 +102,156 @@ static void rotateY(double radian)
 	rotateXZ(0);
 }
 
-static void keyPress(unsigned char key, int x, int y)
+void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	controller -> sendKeyPress(key);
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		(window, GLFW_TRUE);
+	if (action == GLFW_PRESS)
+		controller->sendKeyPress(key);
+}
 
-	switch(key)
-	{
-		case 27:			exit(0); 
-							break;
+int left_action = GLFW_RELEASE;
+int right_action = GLFW_RELEASE;
 
-		case 'w':			cameraRadius -= 8.0;
-							rotateXZ(0);
-							rotateY(0);
-							break;
+static void cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	int origmousex = mouse[X];
+	int origmousey = mouse[Y];
+	mouse[X] = (int) xpos;
+	mouse[Y] = (int) ypos;
 
-		case GLUT_KEY_F1:	fullscreenEnabled = !fullscreenEnabled;
+	if (controller == NULL) return;
 
-							if(fullscreenEnabled)
-								glutFullScreen();
-							else
-							{
-								glutPositionWindow(100, 100);
-								glutReshapeWindow(originalWindowWidth, originalWindowHeight);
-							}
-							break;
-
-		case 's':			cameraRadius += 8.0;
-							rotateXZ(0);
-							rotateY(0);
-							break;
+	if (controller->isMainMenuEnabled()) {
+		controller->sendMouseUp(mouse[X], windowHeight - mouse[Y]);
 	}
-}
-
-static void arrowKeyPress(int key, int x, int y) { keyPress(key, x, y); }
-
-static void mousePress(int button, int state, int x, int y)
-{
-	buttons[button] = state;
-	mouse[X] = x;
-	mouse[Y] = y;
-	
-	if(buttons[GLUT_LEFT_BUTTON] == GLUT_DOWN)
-		controller -> sendMouseDown(x, windowHeight - y);
-	else
-		controller -> sendMouseUp(x, windowHeight - y);
-}
-
-static void mouseDrag(int x, int y)
-{
-	if(controller != NULL && !controller -> isMainMenuEnabled())
-	{
-		if(buttons[GLUT_RIGHT_BUTTON] == GLUT_DOWN)
-		{
-			rotateXZ(-1.0 * (mouse[X] - x) / 100.0);
-			rotateY(-1.0 * (mouse[Y] - y) / 100.0);
+	else {
+		if (left_action == GLFW_PRESS) {
+			controller->sendMouseDown(mouse[X], windowHeight - mouse[Y]);
 		}
-		
-		if(buttons[GLUT_LEFT_BUTTON] == GLUT_DOWN)
-			controller -> sendMouseDown(x, windowHeight - y);
+		if (right_action == GLFW_PRESS) {
+			controller->sendMouseDown(mouse[X], windowHeight - mouse[Y]);
+			rotateXZ(-1.0 * (origmousex - mouse[X]) / 100.0);
+			rotateY(-1.0 * (origmousey - mouse[Y]) / 100.0);
+		}
+		else {
+			controller->sendMouseUp(mouse[X], windowHeight - mouse[Y]);
+		}
 	}
-
-	mouse[X] = x;
-	mouse[Y] = y;
 }
 
-static void mouseMove(int x, int y)
+
+void mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
 {
-	mouse[X] = x;
-	mouse[Y] = y;
-	
-	controller -> sendMouseUp(x, windowHeight - y);
+	if (button == GLFW_MOUSE_BUTTON_RIGHT)
+		right_action = action;
+	else if (button == GLFW_MOUSE_BUTTON_LEFT)
+		left_action = action;
+
+	if (left_action == GLFW_PRESS)
+		controller->sendMouseDown(mouse[X], windowHeight - mouse[Y]);
+	else
+		controller->sendMouseUp(mouse[X], windowHeight - mouse[Y]);
 }
 
-static void display()
-{
-	glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
-	gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 95.0, 0.0, 0, 1, 0);
 
-	controller -> display();
-
-
-	glFinish();
-
-	controller -> update();
-
-	glFinish();
-
-	glutSwapBuffers();
-}
-
-static void resize(int width, int height)
+void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
 	windowWidth = width;
 	windowHeight = height;
 
-	controller -> setWindowWidth(width);
-	controller -> setWindowHeight(height);
-	
-    glViewport(0, 0, windowWidth, windowHeight);
-    glMatrixMode(GL_PROJECTION);
+	controller->setWindowWidth(width);
+	controller->setWindowHeight(height);
+
+	glViewport(0, 0, windowWidth, windowHeight);
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-    gluPerspective(45.0, (double)(windowWidth / windowHeight), 0.1, 2000.0);
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+	gluPerspective(45.0, (double)(windowWidth / windowHeight), 0.1, 2000.0);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+
+	cout << "resize ran" << endl;
 }
 
 static void idle() { glutPostRedisplay(); }
 
+void error_callback(int error, const char* description)
+{
+	fprintf(stderr, "Error: %s\n", description);
+}
+
+
 int main(int argc, char** argv)
 {
+	GLFWwindow* window;
+
 	// Initialize glut
+	
+	glfwSetErrorCallback(error_callback);
+
+	if (!glfwInit())
+        exit(EXIT_FAILURE);
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+
+	window = glfwCreateWindow(640, 480, "Simple example", NULL, NULL);
+	if (!window)
+	{
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+
+
+	glfwSetKeyCallback(window, key_callback);
+	glfwSetCursorPosCallback(window, cursor_position_callback);
+	glfwSetMouseButtonCallback(window, mouse_button_callback);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+	glfwMakeContextCurrent(window);
+	gladLoadGL(glfwGetProcAddress);
+	glfwSwapInterval(1);
+
+	init();
+
+	framebuffer_size_callback(NULL, 640, 480);
+
+	while (!glfwWindowShouldClose(window))
+	{
+		float ratio;
+		int width, height;
+
+		glfwGetFramebufferSize(window, &width, &height);
+		ratio = width / (float)height;
+
+		glViewport(0, 0, width, height);
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		// Draw stuff
+		glMatrixMode(GL_MODELVIEW);
+		glLoadIdentity();
+		gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 95.0, 0.0, 0, 1, 0);
+		//gluLookAt(0.0, 0, -1.0, 0.0, 0.0, 0.0, 0, 1, 0);
+
+		controller->display();
+		//glutSolidTeapot(1.0);
+
+		glFinish();
+
+		controller->update();
+
+		glFinish();
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
+	}
+
+	glfwDestroyWindow(window);
+
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
+	
+	/*
 	glutInit(&argc, argv);
 	glutInitWindowPosition(100, 100);
 	glutInitWindowSize(originalWindowWidth, originalWindowHeight);
@@ -243,5 +273,7 @@ int main(int argc, char** argv)
 	if (init())
 		glutMainLoop();
 
+	glfwTerminate();
+	*/
 	return 0;
 }

@@ -95,11 +95,12 @@ class Controller
 
 		}
 
-		void sendKeyPress(unsigned char key)
+		void sendKeyPress(int key)
 		{
+
 			switch(key)
 			{
-				case 'q':				if(blockDriver.isLoaded())
+				case GLFW_KEY_Q:				if(blockDriver.isLoaded())
 										{
 											delete view;
 											view = new MainMenuView(originalWindowWidth, originalWindowHeight, menu);
@@ -110,7 +111,7 @@ class Controller
 										}
 										break;
 
-				case GLUT_KEY_F2:		debugViewEnabled = !debugViewEnabled;
+				case GLFW_KEY_F2:		debugViewEnabled = !debugViewEnabled;
 					
 										if(blockDriver.isLoaded())
 										{
@@ -123,19 +124,19 @@ class Controller
 										}
 										break;
 
-				case 'p':				if(laser.get() != 0 && blockDriver.isLoaded()) laser -> setMobile(!laser -> isMobile());
+				case GLFW_KEY_P:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> setMobile(!laser -> isMobile());
 										break;
 
-				case GLUT_KEY_UP:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::UP);
+				case GLFW_KEY_UP:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::UP);
 										break;
 
-				case GLUT_KEY_DOWN:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::DOWN);
+				case GLFW_KEY_DOWN:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::DOWN);
 										break;
 
-				case GLUT_KEY_LEFT:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::LEFT);
+				case GLFW_KEY_LEFT:		if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::LEFT);
 										break;
 
-				case GLUT_KEY_RIGHT:	if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::RIGHT);
+				case GLFW_KEY_RIGHT:	if(laser.get() != 0 && blockDriver.isLoaded()) laser -> turn(BlockDriver::Laser::RIGHT);
 										break;
 			}
 		}
