@@ -12,7 +12,6 @@ class PorousBlockInactive : public AbstractBlockState
 		PorousBlockInactive(AbstractBlock& block) : AbstractBlockState(block)
 		{
 			block.setColor(Vector4(0.5, 0.0, 1.0, 1.0));
-			block.setKinematic(true);
 		}
 };
 

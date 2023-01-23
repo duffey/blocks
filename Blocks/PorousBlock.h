@@ -18,7 +18,7 @@ class PorousBlock : public AbstractBlock
 		Vector4 color1, color2;
 
 	public:
-		PorousBlock(NxScene& physxScene, GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44(), Vector4 color1 = Vector4(0.5, 0.0, 1.0, 1.0), Vector4 color2 = Vector4(0.0, 1.0, 0.0, 1.0)) : AbstractBlock(physxScene, size, globalOrientation), color1(color1), color2(color2)
+		PorousBlock(GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44(), Vector4 color1 = Vector4(0.5, 0.0, 1.0, 1.0), Vector4 color2 = Vector4(0.0, 1.0, 0.0, 1.0)) : AbstractBlock(size, globalOrientation), color1(color1), color2(color2)
 		{
 			setState(new PorousBlockInactive(*this));
 		}

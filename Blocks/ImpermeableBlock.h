@@ -12,7 +12,7 @@
 class ImpermeableBlock : public AbstractBlock
 {
 	public:
-		ImpermeableBlock(NxScene& physxScene, GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : AbstractBlock(physxScene, size, globalOrientation)
+		ImpermeableBlock(GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : AbstractBlock(size, globalOrientation)
 		{
 			setState(new ImpermeableBlockInactive(*this));
 		}

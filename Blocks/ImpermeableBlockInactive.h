@@ -12,7 +12,6 @@ class ImpermeableBlockInactive : public AbstractBlockState
 		ImpermeableBlockInactive(AbstractBlock& block) : AbstractBlockState(block)
 		{
 			block.setColor(Vector4(1.0, 1.0, 1.0, 1.0));
-			block.setKinematic(true);
 		}
 };
 

@@ -27,15 +27,8 @@
 #include "Controller.h"
 #include "SimulatedModel.h"
 
-// Physics
-static NxPhysicsSDK*	gPhysicsSDK = NULL;
-static NxScene*			gScene = NULL;
 
 // Rendering
-// Physx
-static NxVec3	gEye(50.0f, 50.0f, 50.0f);
-static NxVec3	gDir(-0.6f,-0.2f,-0.7f);
-static NxVec3	gViewY;
 static int		gMouseX = 0;
 static int		gMouseY = 0;
 
@@ -81,41 +74,11 @@ static bool init()
 	else
 		cout << "wgl_ext unsupported" << endl;*/
 
-	// Initialize PhysicsSDK
-	NxPhysicsSDKDesc desc;
-	gPhysicsSDK = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION);
-	if(gPhysicsSDK == NULL) 
-	{
-		printf("nError: Unable to initialize the PhysX SDK.\n\n");
-		return false;
-	}
 
-	gPhysicsSDK->setParameter(NX_SKIN_WIDTH, 0.05f);
 
-	// Create a scene
-	NxSceneDesc sceneDesc;
-	sceneDesc.gravity				= NxVec3(0.0f, -9.81f, 0.0f);
-	gScene = gPhysicsSDK->createScene(sceneDesc);
-	if(gScene == NULL)
-	{
-		printf("\nError: Unable to create a PhysX scene.\n\n");
-		return false;
-	}
 
-	// Set default material
-	NxMaterial* defaultMaterial = gScene->getMaterialFromIndex(0);
-	defaultMaterial->setRestitution(0.0f);
-	defaultMaterial->setStaticFriction(0.5f);
-	defaultMaterial->setDynamicFriction(0.5f);
 
-	// Create ground plane
-	NxPlaneShapeDesc planeDesc;
-	NxActorDesc actorDesc;
-	actorDesc.shapes.pushBack(&planeDesc);
-
-	gScene->createActor(actorDesc);
-
-	controller = new Controller(windowWidth, windowHeight, *gScene);
+	controller = new Controller(windowWidth, windowHeight);
 
 	return true;
 }
@@ -123,14 +86,6 @@ static bool init()
 static void exit()
 {
 	delete controller;
-
-	if(gPhysicsSDK != NULL)
-	{
-		if(gScene != NULL) gPhysicsSDK->releaseScene(*gScene);
-		gScene = NULL;
-		NxReleasePhysicsSDK(gPhysicsSDK);
-		gPhysicsSDK = NULL;
-	}
 }
 
 static void rotateXZ(double radian)
@@ -230,20 +185,12 @@ static void mouseMove(int x, int y)
 
 static void display()
 {
-	if(gScene == NULL) return;
-	
-	// Start simulation (non blocking)
-	gScene->simulate(1.0);
-
 	glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 	gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 95.0, 0.0, 0, 1, 0);
 
 	controller -> display();
 
-	// Fetch simulation results
-	gScene->flushStream();
-	gScene->fetchResults(NX_RIGID_BODY_FINISHED, true);
 
 	glFinish();
 

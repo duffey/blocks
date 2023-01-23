@@ -15,8 +15,6 @@ class BlockLimp : public AbstractBlockState
 	public:
 		BlockLimp(AbstractBlock& block) : AbstractBlockState(block)
 		{
-			block.setKinematic(false);
-			block.applyForce(NxVec3((GLfloat)rand() / RAND_MAX * 2.0 - 1.0, (GLfloat)rand() / RAND_MAX * -1.0, (GLfloat)rand() / RAND_MAX * 2.0 - 1.0), forceStrength);
 		}
 };
 

@@ -14,7 +14,6 @@
 #include "Vector4.h"
 #include "Matrix44.h"
 #include "Handle.h"
-#include "NxPhysics.h"
 
 typedef Handle<AbstractBlock> Block;
 
@@ -31,14 +30,13 @@ class BlockStructure
 
 	private:
 		enum { x, y, z, w };
-		NxScene& physxScene;
 		size_type height, rows, columns;
 		GLfloat blockSize;
 		Vector4 base;
 		Block*** blocks;
 
 	public:
-		BlockStructure(const string filePath, NxScene& physxScene, GLfloat blockSize = 1.0, const Vector4& base = Vector4(0.0, 0.0, 0.0, 1.0)) : physxScene(physxScene), height(0.0), rows(0.0), columns(0.0), blockSize(blockSize), base(base[x], base[y], base[z], 0.0), blocks(0)
+		BlockStructure(const string filePath, GLfloat blockSize = 1.0, const Vector4& base = Vector4(0.0, 0.0, 0.0, 1.0)) : height(0.0), rows(0.0), columns(0.0), blockSize(blockSize), base(base[x], base[y], base[z], 0.0), blocks(0)
 		{
 			assert(base[w] == 1.0);
 
@@ -263,10 +261,10 @@ class BlockStructure
 	
 							switch(blockType)
 							{
-								case 'P' :	blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.physxScene, blockStructure.blockSize, blockOrientation);	
+								case 'P' :	blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.blockSize, blockOrientation);	
 											break;
 											
-								case 'I' :	blockStructure.blocks[i][j][k] = new ImpermeableBlock(blockStructure.physxScene, blockStructure.blockSize, blockOrientation);	
+								case 'I' :	blockStructure.blocks[i][j][k] = new ImpermeableBlock(blockStructure.blockSize, blockOrientation);	
 											break;
 								
 								default :	blockStructure.blocks[i][j][k] = NULL;

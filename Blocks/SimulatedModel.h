@@ -13,7 +13,6 @@
 
 #include "Vector4.h"
 #include "Matrix44.h"
-#include "NxPhysics.h"
 
 using namespace std;
 
@@ -29,7 +28,6 @@ class SimulatedModel
 		
 		enum { x, y, z, w };
 		
-		NxActor& actor;
 		vector<Vector4> vertices;
 		/* This matrix is no longer used as in the Model class.
 		 * It is simply updated to the NxActor's orientation each time a draw method is called.
@@ -48,9 +46,9 @@ class SimulatedModel
 		mutable vector<Edge> edges;
 
 	public:
-		SimulatedModel(NxActor& actor, const vector<Vector4>& vertices = vector<Vector4>(), const Matrix44& globalOrientation = Matrix44(), Vector4 color = Vector4(1.0, 1.0, 1.0, 1.0)) : actor(actor), vertices(vertices), globalOrientation(globalOrientation), color(color), hasMoved(true), previousLightPosition() { vertices >> *this; }
+		SimulatedModel(bool dummy, const vector<Vector4>& vertices = vector<Vector4>(), const Matrix44& globalOrientation = Matrix44(), Vector4 color = Vector4(1.0, 1.0, 1.0, 1.0)) : vertices(vertices), globalOrientation(globalOrientation), color(color), hasMoved(true), previousLightPosition() { vertices >> *this; }
 		
-		SimulatedModel(NxActor& actor, const char* filePath, const Matrix44& globalOrientation = Matrix44(), Vector4 color = Vector4(1.0, 1.0, 1.0, 1.0)) : actor(actor), globalOrientation(globalOrientation), color(color), hasMoved(true), previousLightPosition() { filePath >> *this; }
+		SimulatedModel(bool dummy, const char* filePath, const Matrix44& globalOrientation = Matrix44(), Vector4 color = Vector4(1.0, 1.0, 1.0, 1.0)) : globalOrientation(globalOrientation), color(color), hasMoved(true), previousLightPosition() { filePath >> *this; }
 
 		virtual ~SimulatedModel() {}
 		
@@ -136,28 +134,12 @@ class SimulatedModel
 		
 		const Matrix44& getOrientation() const { return globalOrientation; }
 
-		const NxActor& getActor() const { return actor; }
+
 
 		void setColor(const Vector4& color) { this -> color = color; }
 
-		void setKinematic(bool kinematic)
-		{
-			if(kinematic)
-				actor.raiseBodyFlag(NX_BF_KINEMATIC);
-			else
-			{
-				actor.clearBodyFlag(NX_BF_KINEMATIC);
-				actor.wakeUp();	
-			}
-		}
 
-		void applyForce(const NxVec3& forceDirection, const NxReal forceStrength)
-		{
-			NxVec3 forceVector = forceStrength * forceDirection;
 
-			actor.addForce(forceVector);
-			actor.setLinearVelocity(forceVector);
-		}
 
 		friend void operator >> (const char* filePath, SimulatedModel& model)
 		{
@@ -234,6 +216,7 @@ class SimulatedModel
 	private:
 		void updateLocation() const
 		{
+			/*
 			NxMat34 physicalOrientation;
 			Matrix44 temp;
 
@@ -248,6 +231,7 @@ class SimulatedModel
 
 				*i = *j;
 			}
+			*/
 		}
 
 		void computeShadowVolume(const Vector4& lightPosition) const

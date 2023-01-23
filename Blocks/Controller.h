@@ -16,7 +16,6 @@
 #include "BlocksView.h"
 #include "DebugBlocksView.h"
 #include "Vector4.h"
-#include "NxPhysics.h"
 
 namespace fs = boost::filesystem;
 
@@ -38,7 +37,6 @@ class Controller
 
 		bool mainMenuEnabled, debugViewEnabled;
 		GLfloat originalWindowWidth, originalWindowHeight, currentWindowWidth, currentWindowHeight;
-		NxScene& physxScene;
 		BlockDriver blockDriver;
 		auto_ptr<BlockDriver::Laser> laser;
 		ScrollingButtonMenu menu;
@@ -46,15 +44,14 @@ class Controller
 
 	public:
 		Controller(	const GLfloat& windowWidth,
-					const GLfloat& windowHeight,
-					NxScene& physxScene) :
+					const GLfloat& windowHeight) :
 		
 					mainMenuEnabled(true),
 					debugViewEnabled(false),
 
 					originalWindowWidth(windowWidth), originalWindowHeight(windowHeight),
 					currentWindowWidth(windowWidth), currentWindowHeight(windowHeight),
-					physxScene(physxScene),
+
 
 					//x, y
 					menu(0, windowHeight,
@@ -83,7 +80,7 @@ class Controller
 							string file = (dir_itr -> path().filename()).string();
 
 							if(file.rfind(extension, file.size()) != string::npos)
-								menu.add(Button(new LoadBlockStructureCommand(blockDriver, dir_itr -> path().string(), physxScene, blockSize, base), file.substr(0, file.size() - extension.size())));
+								menu.add(Button(new LoadBlockStructureCommand(blockDriver, dir_itr -> path().string(), blockSize, base), file.substr(0, file.size() - extension.size())));
 						}
 					}
 					catch ( const std::exception & ex ) { std::cout << dir_itr -> path().filename() << " " << ex.what() << std::endl; }

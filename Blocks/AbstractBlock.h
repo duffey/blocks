@@ -7,7 +7,6 @@
 #include "Matrix44.h"
 #include "AbstractBlockState.h"
 #include "Cube.h"
-#include "NxPhysics.h"
 
 /**
   * @brief This class describes the interface for all blocks in the game.
@@ -16,16 +15,14 @@ class AbstractBlock
 {
 	private:
 		bool touched;
-		NxScene& physxScene;
 		const GLfloat size;
 		Matrix44 globalOrientation; //NOTE: REMOVE
 		AbstractBlockState* state;
 		Cube model;
 
 	public:
-		AbstractBlock(NxScene& physxScene, GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : physxScene(physxScene), touched(false), size(size), globalOrientation(globalOrientation), state(NULL), model(physxScene, this -> size, globalOrientation)
+		AbstractBlock(GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : touched(false), size(size), globalOrientation(globalOrientation), state(NULL), model(this -> size, globalOrientation)
 		{
-			setKinematic(true);
 		}
 
 		virtual ~AbstractBlock()
@@ -44,9 +41,6 @@ class AbstractBlock
 			touchImplementation();
 		}
 
-		void setKinematic(bool kinematic) { model.setKinematic(kinematic); }
-
-		void applyForce(const NxVec3& forceDirection, const NxReal forceStrength) { model.applyForce(forceDirection, forceStrength); }
 
 		virtual void setVictoryState() = 0;
 
