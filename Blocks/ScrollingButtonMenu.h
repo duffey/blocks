@@ -42,6 +42,8 @@ class ScrollingButtonMenu
 		typedef vector<Button>::size_type size_type;
 		typedef vector<Button>::iterator iterator;
 	    typedef vector<Button>::const_iterator const_iterator;
+		string path;
+		bool pathset = false;
 
 	private:
 		static const size_type defaultVisibleButtons = 5;

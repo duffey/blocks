@@ -122,7 +122,8 @@ class BlocksView : public AbstractView
 			glEnable(GL_LIGHT2);
 
 			glMatrixMode(GL_MODELVIEW);
-			
+
+
 
 			if(blockStructure != NULL)
 			{

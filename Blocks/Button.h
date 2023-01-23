@@ -74,8 +74,8 @@ class Button
 		{
 			if(isTouching(mouseX, mouseY))
 			{
-				if(getState() == DOWN)
-					command -> execute();
+				//if(getState() == DOWN)
+				//	command -> execute();
 				
 				setState(MOUSE_OVER);
 			}

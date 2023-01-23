@@ -143,6 +143,12 @@ class Controller
 
 		void update()
 		{
+			if (pathset) {
+				pathset = false;
+				blockDriver.reset();
+				blockDriver.loadBlockStructure(new BlockStructure(path, 30.0, Vector4(0.0, 50.0, 0.0, 1.0)));
+			}
+
 			if(blockDriver.isLoaded())
 			{
 				//We already have a game in progress.
@@ -174,8 +180,10 @@ class Controller
 
 					if(debugViewEnabled)
 						view = new DebugBlocksView(originalWindowWidth, originalWindowHeight, blockDriver, *laser.get());
-					else
+					else {
 						view = new BlocksView(originalWindowWidth, originalWindowHeight, blockDriver, *laser.get());
+						cout << "switching to blocks view" << endl;
+					}
 				}
 			}
 		}

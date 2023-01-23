@@ -205,6 +205,9 @@ class BlockStructure
 			if(in.fail())
 				throw runtime_error("The specified file '" + string(filePath) + "' does not exist.");
 
+			cout << "file exists " << filePath << endl;
+	
+
 			//Deallocate any existing blocks
 			for(size_type i = 0; i < blockStructure.height; i++)
 			{
@@ -222,6 +225,8 @@ class BlockStructure
 			in >> blockStructure.height;
 			in >> blockStructure.rows;
 			in >> blockStructure.columns;
+
+			cout << "height " << blockStructure.height << endl;
 
 			blockStructure.blocks = new Block**[blockStructure.height];
 			
@@ -261,7 +266,8 @@ class BlockStructure
 	
 							switch(blockType)
 							{
-								case 'P' :	blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.blockSize, blockOrientation);	
+							case 'P':	cout << "yes block" << endl;
+											blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.blockSize, blockOrientation);	
 											break;
 											
 								case 'I' :	blockStructure.blocks[i][j][k] = new ImpermeableBlock(blockStructure.blockSize, blockOrientation);	
