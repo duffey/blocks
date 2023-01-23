@@ -32,8 +32,6 @@ class Controller
 		static const GLfloat blockSize;
 		static const Vector4 base;
 		static const ScrollingButtonMenu::size_type visibleButtons = 5;
-		static const fs::path blockStructurePath;
-		static const string extension;
 
 		bool mainMenuEnabled, debugViewEnabled;
 		GLfloat originalWindowWidth, originalWindowHeight, currentWindowWidth, currentWindowHeight;
@@ -66,25 +64,37 @@ class Controller
 
 					view(new MainMenuView(windowWidth, windowHeight, menu))
 		{
-				assert(fs::exists(blockStructurePath) && fs::is_directory(blockStructurePath));
+				//assert(fs::exists(blockStructurePath) && fs::is_directory(blockStructurePath));
 
-				//Adopted from Boost Filesystem tutorial
-				fs::directory_iterator end_iter;
 
-				for (fs::directory_iterator dir_itr(blockStructurePath); dir_itr != end_iter; ++dir_itr)
+				WIN32_FIND_DATA ffd;
+				HANDLE hFind = INVALID_HANDLE_VALUE;
+				LARGE_INTEGER filesize;
+				hFind = FindFirstFile(L"puzzles\\*", &ffd);
+
+
+				do
 				{
-					try
+					if (ffd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 					{
-						if (fs::is_regular_file(dir_itr -> status()))
-						{
-							string file = (dir_itr -> path().filename()).string();
-
-							if(file.rfind(extension, file.size()) != string::npos)
-								menu.add(Button(new LoadBlockStructureCommand(blockDriver, dir_itr -> path().string(), blockSize, base), file.substr(0, file.size() - extension.size())));
-						}
 					}
-					catch ( const std::exception & ex ) { std::cout << dir_itr -> path().filename() << " " << ex.what() << std::endl; }
-				}
+					else {
+						filesize.LowPart = ffd.nFileSizeLow;
+						filesize.HighPart = ffd.nFileSizeHigh;
+
+						wstring ws(ffd.cFileName);
+						string str(ws.begin(), ws.end());
+						size_t dot = str.find_last_of(".");
+						string nameWithoutExt = str.substr(0, dot);
+
+						cout << str << endl;
+
+						menu.add(Button(new LoadBlockStructureCommand(blockDriver, string("puzzles/") + str, blockSize, base), nameWithoutExt));
+					}
+
+
+				} while (FindNextFile(hFind, &ffd) != 0);
+
 		}
 
 		void sendKeyPress(unsigned char key)
@@ -202,7 +212,5 @@ class Controller
 const GLfloat Controller::paddingRatio = .02;
 const GLfloat Controller::blockSize = 30.0;
 const Vector4 Controller::base = Vector4(0.0, 50.0, 0.0, 1.0);
-const fs::path Controller::blockStructurePath = fs::system_complete("puzzles");
-const string Controller::extension = ".block";
 
 #endif /*CONTROLLER_H_*/

@@ -18,7 +18,8 @@ C:\Users\user\code\blocks\Blocks\main.cpp(49,57): warning C4838: conversion from
 C:\Users\user\code\blocks\Blocks\main.cpp(49,87): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
 C:\Users\user\code\blocks\Blocks\main.cpp(49,135): warning C4838: conversion from 'double' to 'GLfloat' requires a narrowing conversion
   Generating code
-  Previous IPDB not found, fall back to full compilation.
-  All 1168 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  16 of 1141 functions ( 1.4%) were compiled, the rest were copied from previous compilation.
+    11 functions were new in current compilation
+    41 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   Blocks.vcxproj -> C:\Users\user\code\blocks\Release\Blocks.exe
