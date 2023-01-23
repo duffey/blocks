@@ -3,8 +3,6 @@
 
 #include "AbstractBlock.h"
 #include "ImpermeableBlockInactive.h"
-#include "BlockLimp.h"
-#include "BlockExplode.h"
 
 /**
   * @brief This class defines a plain-vanilla block that cannont be penetrated.
@@ -17,9 +15,9 @@ class ImpermeableBlock : public AbstractBlock
 			setState(new ImpermeableBlockInactive(*this));
 		}
 
-		virtual void setVictoryState() { setState(new BlockExplode(*this)); }
+		virtual void setVictoryState() {  }
 
-		virtual void setLossState() { setState(new BlockLimp(*this)); }
+		virtual void setLossState() {  }
 		
 		virtual ImpermeableBlock* clone () const { return new ImpermeableBlock(*this); }
 		

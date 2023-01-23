@@ -108,22 +108,14 @@
     <ClCompile Include="imgui_tables.cpp" />
     <ClCompile Include="imgui_widgets.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ScrollingButtonMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AbstractBlock.h" />
     <ClInclude Include="AbstractBlockState.h" />
-    <ClInclude Include="AbstractCommand.h" />
-    <ClInclude Include="AbstractView.h" />
     <ClInclude Include="BlockDriver.h" />
-    <ClInclude Include="BlockExplode.h" />
-    <ClInclude Include="BlockLimp.h" />
     <ClInclude Include="BlockStructure.h" />
-    <ClInclude Include="BlocksView.h" />
-    <ClInclude Include="Button.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Cube.h" />
-    <ClInclude Include="DebugBlocksView.h" />
     <ClInclude Include="DrawObjects.h" />
     <ClInclude Include="Handle.h" />
     <ClInclude Include="imconfig.h" />
@@ -137,17 +129,11 @@
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
-    <ClInclude Include="LoadBlockStructureCommand.h" />
-    <ClInclude Include="MainMenuView.h" />
     <ClInclude Include="Matrix44.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="NullCommand.h" />
     <ClInclude Include="PorousBlock.h" />
     <ClInclude Include="PorousBlockActive.h" />
     <ClInclude Include="PorousBlockInactive.h" />
-    <ClInclude Include="ScrollDownCommand.h" />
-    <ClInclude Include="ScrollingButtonMenu.h" />
-    <ClInclude Include="ScrollUpCommand.h" />
     <ClInclude Include="SimulatedModel.h" />
     <ClInclude Include="Vector4.h" />
   </ItemGroup>

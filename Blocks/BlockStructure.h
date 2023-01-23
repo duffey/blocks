@@ -266,7 +266,7 @@ class BlockStructure
 	
 							switch(blockType)
 							{
-							case 'P':	cout << "yes block" << endl;
+							case 'P':	
 											blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.blockSize, blockOrientation);	
 											break;
 											

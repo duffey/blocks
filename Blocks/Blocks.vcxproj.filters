@@ -18,9 +18,6 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ScrollingButtonMenu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="gl.c">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -53,37 +50,16 @@
     <ClInclude Include="AbstractBlockState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="AbstractCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AbstractView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BlockDriver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BlockExplode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlockLimp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BlockStructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="BlocksView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Button.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Cube.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugBlocksView.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DrawObjects.h">
@@ -98,19 +74,10 @@
     <ClInclude Include="ImpermeableBlockInactive.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LoadBlockStructureCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainMenuView.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Matrix44.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="NullCommand.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PorousBlock.h">
@@ -120,18 +87,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PorousBlockInactive.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrollDownCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrollingButtonMenu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ScrollUpCommand.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SimulatedModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Vector4.h">
@@ -162,6 +117,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SimulatedModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

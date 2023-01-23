@@ -6,9 +6,6 @@
 #include "AbstractBlock.h"
 #include "PorousBlockInactive.h"
 #include "PorousBlockActive.h"
-#include "BlockLimp.h"
-#include "BlockExplode.h"
-
 /**
   * @brief This class defines blocks which can be penetrated.  Additionally, these blocks change color when they are touched.
   */
@@ -23,9 +20,9 @@ class PorousBlock : public AbstractBlock
 			setState(new PorousBlockInactive(*this));
 		}
 
-		virtual void setVictoryState() { setState(new BlockExplode(*this)); }
+		virtual void setVictoryState() {  }
 
-		virtual void setLossState() { setState(new BlockLimp(*this)); }
+		virtual void setLossState() {  }
 		
 		virtual PorousBlock* clone () const { return new PorousBlock(*this); }
 		

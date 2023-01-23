@@ -13,6 +13,11 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
+#if __APPLE__
+#include <GLUT/glut.h>
+#else 
+#include <GL/glut.h>
+#endif
 
 #include <string>
 
@@ -21,11 +26,7 @@
 #include "BlockDriver.h"
 #include "BlockStructure.h"
 #include "Matrix44.h"
-#include "Button.h"
-#include "NullCommand.h"
-#include "ScrollingButtonMenu.h"
 #include "Controller.h"
-#include "SimulatedModel.h"
 
 
 
@@ -66,13 +67,6 @@ static bool init()
 	cout << "q:\t\t\tReturn to main menu\n";
 	cout << "ESC:\t\t\tQuit\n";
 	
-	/*if (GLEE_WGL_EXT_swap_control)
-	{
-		cout << "wgl_ext supported" << endl;
-		wglSwapIntervalEXT(1);
-	}
-	else
-		cout << "wgl_ext unsupported" << endl;*/
 
 
 
@@ -194,7 +188,6 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	cout << "resize ran" << endl;
 }
 
-static void idle() { glutPostRedisplay(); }
 
 void error_callback(int error, const char* description)
 {
@@ -260,7 +253,7 @@ int main(int argc, char** argv)
 		// Draw stuff
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 95.0, 0.0, 0, 1, 0);
+		gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 45.0, 0.0, 0, 1, 0);
 		//gluLookAt(0.0, 0, -1.0, 0.0, 0.0, 0.0, 0, 1, 0);
 
 		controller->display();
