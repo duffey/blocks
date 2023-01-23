@@ -11,7 +11,7 @@ class PorousBlockActive : public AbstractBlockState
 	public:
 		PorousBlockActive(AbstractBlock& block) : AbstractBlockState(block)
 		{
-			block.setColor(Vector4(0.0, 1.0, 0.0, 1.0));
+			block.setColor(Vector4(1.0, 0.5, 0.0, 1.0));
 		}
 };
 

@@ -87,8 +87,6 @@ class Controller
 						size_t dot = str.find_last_of(".");
 						string nameWithoutExt = str.substr(0, dot);
 
-						cout << str << endl;
-
 						menu.add(Button(new LoadBlockStructureCommand(blockDriver, string("puzzles/") + str, blockSize, base), nameWithoutExt));
 					}
 

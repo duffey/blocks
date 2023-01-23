@@ -1,3 +1,6 @@
 include
+Blocks/Debug
+Blocks/Release
+Release
 lib
 .vs
