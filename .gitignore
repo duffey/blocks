@@ -1,7 +1,5 @@
-include
 Blocks/Debug
 Blocks/Release
 Release
 Debug
-lib
 .vs
