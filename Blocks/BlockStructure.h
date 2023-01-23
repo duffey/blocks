@@ -8,7 +8,7 @@
 #include <stdexcept>	//runtime_error
 #include <iostream>		//istream
 
-#include "AbstractBlock.h"
+#include "Block.h"
 #include "Vector4.h"
 #include "Matrix44.h"
 

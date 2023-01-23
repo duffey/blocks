@@ -110,8 +110,7 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AbstractBlock.h" />
-    <ClInclude Include="AbstractBlockState.h" />
+    <ClInclude Include="Block.h" />
     <ClInclude Include="BlockDriver.h" />
     <ClInclude Include="BlockStructure.h" />
     <ClInclude Include="Controller.h" />
