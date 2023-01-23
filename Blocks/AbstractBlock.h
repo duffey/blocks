@@ -5,30 +5,30 @@
 
 #include "Vector4.h"
 #include "Matrix44.h"
-#include "AbstractBlockState.h"
 #include "Cube.h"
 
 /**
   * @brief This class describes the interface for all blocks in the game.
   */
-class AbstractBlock
+class Block
 {
 	private:
 		bool touched;
 		const GLfloat size;
 		Matrix44 globalOrientation; //NOTE: REMOVE
-		AbstractBlockState* state;
+
 		Cube model;
+		bool isPenatrable;
 
 	public:
-		AbstractBlock(GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : touched(false), size(size), globalOrientation(globalOrientation), state(NULL), model(this -> size, globalOrientation)
+		Block(bool isPenatrable, GLfloat size = 1.0, const Matrix44& globalOrientation = Matrix44()) : isPenatrable(isPenatrable), touched(false), size(size), globalOrientation(globalOrientation), model(this -> size, globalOrientation)
 		{
-		}
-
-		virtual ~AbstractBlock()
-		{
-			if(state != NULL)
-				delete state;
+			if (isPenatrable) {
+				setColor(Vector4(0.5, 0.0, 1.0, 1.0));
+			}
+			else {
+				setColor(Vector4(1.0, 1.0, 1.0, 1.0));
+			}
 		}
 		
 		/**
@@ -38,13 +38,11 @@ class AbstractBlock
 		{
 			touched = true;
 			
-			touchImplementation();
+			if (isPenatrable) {
+				setColor(Vector4(1.0, 0.5, 0.0, 1.0));
+			}
 		}
 
-
-		virtual void setVictoryState() = 0;
-
-		virtual void setLossState() = 0;
 		
 		/**
 		  * @return true if the block has been touched
@@ -54,13 +52,10 @@ class AbstractBlock
 		/**
 		  * @return true if the block is an obstacle
 		  */
-		virtual bool isImpenetrable() const = 0;
+		bool isImpenetrable() {
+			return !isPenatrable;
+		}
 		
-		/**
-		  * @see Handle
-		  * @return a pointer to a duplicate object for use with Handle
-		  */
-		virtual AbstractBlock* clone () const = 0;
 		
 		/**
 		  * Draws the block
@@ -115,29 +110,6 @@ class AbstractBlock
         	return !(lhs == rhs);
        	}*/
        	
-	private:
-		/**
-		  * Defines what happens when a block is touched
-		  */
-		virtual void touchImplementation() = 0;
-		
-	protected:
-		/**
-		  * Sets the state of the block, which may affect gameplay elements as well as how it is drawn on the screen
-		  * @param state An instance of a child of AbstractBlockState, which defines the state behavior
-		  */
-		void setState(AbstractBlockState* state)
-		{
-			if(this -> state != NULL && this -> state != state)
-				delete this -> state;
-				
-			this -> state = state;
-		}
-		
-		/**
-		  * @return an object which describes the block's internal state
-		  */
-		const AbstractBlockState* const getState() const { return state; }
 };
 
 #endif /*ABSTRACTBLOCK_H_*/

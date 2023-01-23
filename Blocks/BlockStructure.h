@@ -9,13 +9,8 @@
 #include <iostream>		//istream
 
 #include "AbstractBlock.h"
-#include "PorousBlock.h"
-#include "ImpermeableBlock.h"
 #include "Vector4.h"
 #include "Matrix44.h"
-#include "Handle.h"
-
-typedef Handle<AbstractBlock> Block;
 
 using namespace std;
 
@@ -33,7 +28,7 @@ class BlockStructure
 		size_type height, rows, columns;
 		GLfloat blockSize;
 		Vector4 base;
-		Block*** blocks;
+		Block**** blocks;
 
 	public:
 		BlockStructure(const string filePath, GLfloat blockSize = 1.0, const Vector4& base = Vector4(0.0, 0.0, 0.0, 1.0)) : height(0.0), rows(0.0), columns(0.0), blockSize(blockSize), base(base[x], base[y], base[z], 0.0), blocks(0)
@@ -99,26 +94,6 @@ class BlockStructure
 			blocks[height][row][column] -> touch();
 		}
 
-		void setBlockLossState(size_type height, size_type row, size_type column)
-		{
-			if(!hasBlock(height, row, column))
-				throw runtime_error("A block does not exist at the specified location.");
-
-			assert(hasBlock(height, row, column));
-
-			blocks[height][row][column] -> setLossState();
-		}
-
-		void setBlockVictoryState(size_type height, size_type row, size_type column)
-		{
-			if(!hasBlock(height, row, column))
-				throw runtime_error("A block does not exist at the specified location.");
-
-			assert(hasBlock(height, row, column));
-
-			blocks[height][row][column] -> setVictoryState();
-		}
-		
 		/**
 		  * @return true if a child of AbstractBlock exists at the specified location
 		  * @see AbstractBlock
@@ -142,7 +117,7 @@ class BlockStructure
 			return hasBlock(height, row, column) && blocks[height][row][column] -> hasBeenTouched();
 		}
 		
-		const AbstractBlock& getBlock(size_type height, size_type row, size_type column) const
+		const Block& getBlock(size_type height, size_type row, size_type column) const
 		{
 			assert(hasBlock(height, row, column));
 			
@@ -228,7 +203,7 @@ class BlockStructure
 
 			cout << "height " << blockStructure.height << endl;
 
-			blockStructure.blocks = new Block**[blockStructure.height];
+			blockStructure.blocks = new Block ***[blockStructure.height];
 			
 			upperLeftCornerX = (blockStructure.columns / 2) * -blockStructure.blockSize;
 			upperLeftCornerZ = (blockStructure.rows / 2) * -blockStructure.blockSize;
@@ -247,11 +222,11 @@ class BlockStructure
 				
 				for(size_type i = 0; i < blockStructure.height; i++)
 				{
-					blockStructure.blocks[i] = new Block*[blockStructure.rows];
+					blockStructure.blocks[i] = new Block * *[blockStructure.rows];
 	
 					for(size_type j = 0; j < blockStructure.rows; j++)
 					{	
-						blockStructure.blocks[i][j] = new Block[blockStructure.columns];
+						blockStructure.blocks[i][j] = new Block * [blockStructure.columns];
 	
 						for(size_type k = 0; k < blockStructure.columns; k++)
 						{
@@ -267,10 +242,10 @@ class BlockStructure
 							switch(blockType)
 							{
 							case 'P':	
-											blockStructure.blocks[i][j][k] = new PorousBlock(blockStructure.blockSize, blockOrientation);	
+											blockStructure.blocks[i][j][k] = new Block(true, blockStructure.blockSize, blockOrientation);	
 											break;
 											
-								case 'I' :	blockStructure.blocks[i][j][k] = new ImpermeableBlock(blockStructure.blockSize, blockOrientation);	
+								case 'I' :	blockStructure.blocks[i][j][k] = new Block(false, blockStructure.blockSize, blockOrientation);	
 											break;
 								
 								default :	blockStructure.blocks[i][j][k] = NULL;

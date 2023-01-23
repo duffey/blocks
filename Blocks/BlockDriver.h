@@ -12,7 +12,6 @@
 #include "BlockStructure.h"
 #include "Matrix44.h"
 #include "Vector4.h"
-#include "DrawObjects.h"
 
 using namespace std;
 
@@ -230,13 +229,13 @@ class BlockDriver
 									if(blockStructure -> hasImpenetrableBlock(currentVoxel.height, currentVoxel.row, currentVoxel.column))
 									{
 										setMobile(false);
-										blockDriver.setAllLossState();
+
 									}
 									//We won!
 									else if(blockDriver.hasTouchedAllPenetrable())
 									{
 										setMobile(false);
-										blockDriver.setAllVictoryState();
+
 									}
 								}
 								
@@ -259,7 +258,7 @@ class BlockDriver
 							currentLocation[z] = currentVoxelLocation[z] + (-blockStructure -> getBlockSize() / 2.0 + moveProgress) * currentDirection[z];
 							
 							setMobile(false);
-							blockDriver.setAllLossState();
+
 						}
 					}
 				}
@@ -489,35 +488,6 @@ class BlockDriver
 			return true;
 		}
 
-		void setAllLossState()
-		{
-			assert(isLoaded());
-
-			const size_type& height = blockStructure -> getHeight();
-			const size_type& rows = blockStructure -> getRows();
-			const size_type& columns = blockStructure -> getColumns();
-
-			for(size_type i = 0; i < height; i++)
-				for(size_type j = 0; j < rows; j++)
-					for(size_type k = 0; k < columns; k++)
-						if(blockStructure -> hasBlock(i, j, k))
-							blockStructure -> setBlockLossState(i, j, k);
-		}
-
-		void setAllVictoryState()
-		{
-			assert(isLoaded());
-
-			const size_type& height = blockStructure -> getHeight();
-			const size_type& rows = blockStructure -> getRows();
-			const size_type& columns = blockStructure -> getColumns();
-
-			for(size_type i = 0; i < height; i++)
-				for(size_type j = 0; j < rows; j++)
-					for(size_type k = 0; k < columns; k++)
-						if(blockStructure -> hasBlock(i, j, k))
-							blockStructure -> setBlockVictoryState(i, j, k);
-		}
 		
 		/**
 		  * This method, which can be used for debugging purposes, highlights a Voxel existing in the space defined by the BlockStructure grid.

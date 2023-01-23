@@ -116,24 +116,17 @@
     <ClInclude Include="BlockStructure.h" />
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Cube.h" />
-    <ClInclude Include="DrawObjects.h" />
-    <ClInclude Include="Handle.h" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
     <ClInclude Include="imgui_impl_glfw.h" />
     <ClInclude Include="imgui_impl_opengl3.h" />
     <ClInclude Include="imgui_impl_opengl3_loader.h" />
     <ClInclude Include="imgui_internal.h" />
-    <ClInclude Include="ImpermeableBlock.h" />
-    <ClInclude Include="ImpermeableBlockInactive.h" />
     <ClInclude Include="imstb_rectpack.h" />
     <ClInclude Include="imstb_textedit.h" />
     <ClInclude Include="imstb_truetype.h" />
     <ClInclude Include="Matrix44.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="PorousBlock.h" />
-    <ClInclude Include="PorousBlockActive.h" />
-    <ClInclude Include="PorousBlockInactive.h" />
     <ClInclude Include="SimulatedModel.h" />
     <ClInclude Include="Vector4.h" />
   </ItemGroup>
