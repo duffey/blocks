@@ -406,7 +406,7 @@ class BlockDriver
 						{
 							glPushMatrix();
 								glTranslatef(upperLeftCornerX + k * blockSize, base[y] + blockSize / 2.0 + blockSize * i, upperLeftCornerZ + j * blockSize);
-								glutWireCube(blockSize);
+								//glutWireCube(blockSize);
 							glPopMatrix();
 						}
 						
@@ -502,7 +502,7 @@ class BlockDriver
 				
 			glPushMatrix();
 				glTranslatef(voxelLocation[x], voxelLocation[y], voxelLocation[z]);
-				glutSolidCube(blockSize);
+				//glutSolidCube(blockSize);
 			glPopMatrix();
 		}
 		
@@ -519,7 +519,7 @@ class BlockDriver
 				
 			glPushMatrix();
 				glTranslatef(voxelLocation[x], voxelLocation[y], voxelLocation[z]);
-				glutSolidCube(blockSize * thresholdRatio);
+				//glutSolidCube(blockSize * thresholdRatio);
 			glPopMatrix();
 		}
 		

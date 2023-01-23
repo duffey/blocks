@@ -13,11 +13,6 @@
 #include <glad/gl.h>
 #include <GLFW/glfw3.h>
 
-#if __APPLE__
-#include <GLUT/glut.h>
-#else 
-#include <GL/glut.h>
-#endif
 
 #include <string>
 
@@ -194,6 +189,67 @@ void error_callback(int error, const char* description)
 	fprintf(stderr, "Error: %s\n", description);
 }
 
+void normalize(float v[3]) {
+	float lensq = v[0] * v[0]
+		+ v[1] * v[1]
+		+ v[2] * v[2];
+	float len = sqrt(lensq);
+	v[0] /= len;
+	v[1] /= len;
+	v[2] /= len;
+
+}
+
+void cross(float side[3], float forward[3], float up[3]) {
+	up[0] = side[1] * forward[2] - side[2] * forward[1];
+	up[1] = -(side[0] * forward[2] - side[2] * forward[0]);
+	up[2] = side[0] * forward[1] - side[1] * forward[0];
+}
+
+void lookAt(GLdouble eyex, GLdouble eyey, GLdouble eyez, GLdouble centerx,
+	GLdouble centery, GLdouble centerz, GLdouble upx, GLdouble upy,
+	GLdouble upz)
+{
+	int i;
+	float forward[3], side[3], up[3];
+	GLfloat m[4][4];
+
+	forward[0] = centerx - eyex;
+	forward[1] = centery - eyey;
+	forward[2] = centerz - eyez;
+
+	up[0] = upx;
+	up[1] = upy;
+	up[2] = upz;
+
+	normalize(forward);
+
+	/* Side = forward x up */
+	cross(forward, up, side);
+	normalize(side);
+
+	/* Recompute up as: up = side x forward */
+	cross(side, forward, up);
+
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++)
+			m[i][j] = i == j ? 1.0 : 0.0;
+	m[0][0] = side[0];
+	m[1][0] = side[1];
+	m[2][0] = side[2];
+
+	m[0][1] = up[0];
+	m[1][1] = up[1];
+	m[2][1] = up[2];
+
+	m[0][2] = -forward[0];
+	m[1][2] = -forward[1];
+	m[2][2] = -forward[2];
+
+	glMultMatrixf(&m[0][0]);
+	glTranslated(-eyex, -eyey, -eyez);
+}
+
 
 int main(int argc, char** argv)
 {
@@ -253,7 +309,7 @@ int main(int argc, char** argv)
 		// Draw stuff
 		glMatrixMode(GL_MODELVIEW);
 		glLoadIdentity();
-		gluLookAt(eye[X], eye[Y], eye[Z], 0.0, 45.0, 0.0, 0, 1, 0);
+		lookAt(eye[X], eye[Y], eye[Z], 0.0, 45.0, 0.0, 0, 1, 0);
 		//gluLookAt(0.0, 0, -1.0, 0.0, 0.0, 0.0, 0, 1, 0);
 
 		controller->display();
